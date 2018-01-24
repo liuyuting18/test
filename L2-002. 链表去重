@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+typedef long long LL;
+using namespace std;
+//把所有点保存，设一个标记数组，从头结点开始，若当前点值未存在，存进一个数组，否则存进另一个，最后顺序输出即可。
+//注意输出，从第二个节点开始要输出两遍自身地址，因为前后有可能地址并不对应。
+//输出：%05d,即可输出5位，前面补0
+struct node
+{
+    int key;
+    int next;
+
+}a[100005];  //数组开小会WA
+char book[10005];
+int lef[100005],de[100005]; //数组开小会WA
+
+int main()
+{
+    int S,N; int p;
+    int left,del;
+    cin>>S>>N;
+    for(int i=0;i<N;i++)
+    {
+         cin>>p;
+         cin>>a[p].key>>a[p].next;
+    }
+    left=0,del=0;
+    memset(book,0,sizeof(book));
+    for(int i=0;i<N&&S!=-1;i++)
+    {
+        if(!book[abs(a[S].key)])  //查询key是否被访问过，用来查重
+        {
+            lef[left++]=S;   //lef用来记录留下来的 key的位置
+            book[abs(a[S].key)]=1;  //记录key已访问
+            S=a[S].next;
+        }
+        //找到已经访问过相同的key
+        else{
+            de[del++]=S;  //de用来记录去除的key的位置
+            S=a[S].next;
+        }
+    }
+    if(left){
+        for(int i=0;i<left;i++){
+            if(i==0){
+                printf("%05d %d",lef[i],a[lef[i]].key);
+            }
+            else{
+                printf(" %05d\n%05d %d",lef[i],lef[i],a[lef[i]].key);
+            }
+        }
+        printf(" -1\n"); //最后的NULL指针用 -1 表示
+    }
+    if(del){
+        for(int i=0;i<del;i++){
+            if(i==0){
+                printf("%05d %d",de[i],a[de[i]].key);
+            }
+            else{
+                printf(" %05d\n%05d %d",de[i],de[i],a[de[i]].key);
+            }
+        }
+        printf(" -1\n");
+    }
+    return 0;
+}
