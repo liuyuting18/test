@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+#define MAX 1000
+using namespace std;
+typedef struct
+{
+    double weight;
+    double value;
+    double price;
+} Bing;
+Bing bing[MAX];
+int cmp( const void *a , const void *b )
+{
+    return (*(Bing *)a).price < (*(Bing *)b).price ? 1 : -1;
+}
+int main()
+{
+    int N;
+    int D;
+    cin >> N >> D;
+    for ( int i = 0; i < N; i++ )
+    {
+        cin >> bing[i].weight;
+    }
+    for ( int i = 0; i < N; i++ )
+    {
+        cin >> bing[i].value;
+        //bing[i].price = ( double ) bing[i].value / ( double ) bing[i].weight;
+        bing[i].price = bing[i].value / bing[i].weight;
+    }
+    qsort( bing, N, sizeof( Bing ), cmp );
+    /*
+        for ( int i = 0; i < N; i++ ) {
+            cout << bing[i].price << endl;
+        }
+    */
+    int now_weight = 0;
+    double sum = 0.0;
+    int index = 0;
+    while ( now_weight < D && index < N )
+    {
+        /*
+        注释这部分是我第一次写的，想法就是每次挑选一吨，直到达到循环结束的条件
+                if ( bing[index].weight == 0 ) {
+                    index++;
+                }
+                sum = sum + bing[index].price;
+                bing[index].weight--;
+                now_weight++;
+        */
+//这个参考别人写的，运算效率提高了
+        if ( D >= bing[index].weight )
+        {
+            D = D - bing[index].weight;
+            sum = sum + bing[index].value;
+        }
+        else
+        {
+            sum = sum + D * bing[index].price;
+            D = 0;
+        }
+        index++;
+    }
+    printf( "%.2lf", sum );
+    return 0;
+}
