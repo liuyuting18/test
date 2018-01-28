@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int INF = -99999999; // 节点不存在的时候赋值给节点
+const int N = 10010;
+int in[N];
+int post[N];
+int pos;
+struct Node { // 储存节点信息的结构体
+    int w; // 值
+    int l; // 左子节点的下标
+    int r; // 右子节点的下标
+};
+Node node[N];
+void input(int a[], int n) {
+    for(int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+}
+// 重建以第 n 个节点为根节点的二叉树
+void rec(int l, int r, int n) {
+    if(l >= r) {
+        node[n].w = INF; // 如果节点不存在，赋值为 INF
+        return ;
+    }
+    int root = post[pos--]; // 获取后续遍历中节点的数值
+    node[n].w = root;
+    node[n].l = 2*n; // 左子树所在数组下标
+    node[n].r = 2*n+1; // 右子树所在数组下标
+    int m = find(in, in+r, root) - in;
+
+    rec(m+1, r, 2*n+1); // 因为是后序遍历，所以先重建右子树
+    rec(l, m, 2*n); // 在重建左子树
+}
+// 使用 C++ STL 模板提供的队列数据结构
+void print() {
+    queue<int> que;
+    que.push(1); // 将 1 号节点入队
+    int index;
+    while(!que.empty()) {
+        index = que.front(); // 取出队头元素
+        que.pop(); // 对头元素出队
+        if(node[index].w != INF) {
+            if(index != 1) {
+                cout << " ";
+            }
+            cout << node[index].w;
+            que.push(node[index].l);
+            que.push(node[index].r);
+        }
+    }
+}
+int main() {
+    int n;
+    cin >> n;
+    pos = n - 1;
+    input(post, n);
+    input(in, n);
+
+    rec(0, n, 1);
+
+    print();
+
+    return 0;
+}
