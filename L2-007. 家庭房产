@@ -1,0 +1,116 @@
+#include<bits/stdc++.h>
+#define INF 0x3f3f3f3f
+#define LL long long
+#define bug puts("********************************")
+#define mem(a,b)  memset(a,b,sizeof(a))
+using namespace std;
+struct node
+{
+    int id;   /// 编号
+    double area;  ///面积
+    double roomNum;    ///房子套数
+    int num;        /// 总人数
+    friend bool operator <(node p1,node p2)
+    {
+        return p1.area/p1.num==p2.area/p2.num?p1.id<p2.id: p1.area/p1.num>p2.area/p2.num;
+    }
+} bin[10000],sp[10000];
+struct guanxi
+{
+    int id;
+    int father,mother;
+    vector <int>f;
+} p[1005];
+bool vis[10000];
+int Find(int x)
+{
+    return x==bin[x].id?x:bin[x].id=Find(bin[x].id);
+}
+void Union(int x,int y)
+{
+    int fx=Find(x);
+    int fy=Find(y);
+    if(fx==fy)
+        return ;
+    if(fx>fy)
+    {
+        bin[fx].id=fy;
+        bin[fy].roomNum+=bin[fx].roomNum;
+        bin[fy].area+=bin[fx].area;
+        bin[fy].num+=bin[fx].num;
+    }
+    else
+    {                                       ///更新并查集中 集合体的信息（或根信息）
+        bin[fy].id=fx;
+        bin[fx].roomNum+=bin[fy].roomNum;
+        bin[fx].area+=bin[fy].area;
+        bin[fx].num+=bin[fy].num;
+    }
+}
+int main()
+{
+    int n;
+    mem(vis,0);
+    for(int i=0; i<10000; i++)
+    {
+        bin[i].area=bin[i].roomNum=0;
+        bin[i].num=1;
+        bin[i].id=i;
+    }
+    scanf("%d",&n);
+     int a,b,c,d;
+    for(int i=0; i<n; i++) ///要先将所有的信息录入再进行合并,这样才可以保证录入的信息更新不会被漏掉
+    {
+        scanf("%d%d%d%d",&a,&b,&c,&d);
+        p[i].id=a,p[i].father=b,p[i].mother=c;
+        for(int j=0; j<d; j++)
+        {
+            int t;
+            scanf("%d",&t);
+            p[i].f.push_back(t);
+            ///cout<<p[i].f[j]<<endl;
+        }
+        scanf("%lf%lf",&bin[a].roomNum,&bin[a].area);
+    }
+    ///将录好信息的进行并查集合并
+    for(int i=0; i<n; i++)
+    {
+         a=p[i].id,b=p[i].father,c=p[i].mother,d=p[i].f.size();
+         vis[a]=true;
+        if(b!=-1)
+        {
+            vis[b]=true;
+            Union(a,b);
+        }
+        if(c!=-1)
+        {
+            vis[c]=true;
+            Union(a,c);
+        }
+        for(int j=0; j<d; j++)
+        {
+            int t=p[i].f[j];
+            if(t!=-1)
+            {
+                vis[t]=true;
+                Union(a,t);
+            }
+        }
+    }
+    int znum=0;
+    for(int i=0;i<10000;i++)   ///枚举所有的情况，因为可能存在不存在房产的人
+    {
+        if(vis[i]&&bin[i].id==i)
+        {
+           sp[znum++]=bin[i];
+        }
+    }
+    sort(sp,sp+znum);
+
+    printf("%d\n",znum);
+    for(int i=0;i<znum;i++)
+    {
+        printf("%04d %d %.3lf %.3lf\n",sp[i].id,(int)sp[i].num,sp[i].roomNum/sp[i].num,sp[i].area/sp[i].num);
+    }
+    return 0;
+}
