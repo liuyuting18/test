@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+int fa[105];
+int _find(int x)
+{
+    if(x!=fa[x]) fa[x]=_find(fa[x]);
+    return fa[x];
+}
+int main()
+{
+    int n,m,k;
+    int ma[105][105]= {0};
+    scanf("%d%d%d",&n,&m,&k);
+    for(int i=0; i<=n; i++)
+        fa[i]=i;
+    for(int i=1; i<=m; i++)
+    {
+        int i1,i2,t;
+        scanf("%d%d%d",&i1,&i2,&t);
+        if(t==1)
+        {
+            int a=_find(i1);
+            int b=_find(i2);
+            if(a==b)
+                continue;
+            if(a<b)
+                fa[b]=a;
+            else
+                fa[a]=b;
+        }
+        else
+            ma[i1][i2]=ma[i2][i1]=t;
+    }
+    for(int i=0; i<k; i++)
+    {
+        int i1,i2;
+        scanf("%d%d",&i1,&i2);
+        int a=_find(i1);
+        int b=_find(i2);
+        if(a==b&&ma[i1][i2]!=-1)
+        {
+            puts("No problem");
+        }
+        else if(a==b&&ma[i1][i2]==-1)
+        {
+            puts("OK but...");
+        }
+        else if(a!=b&&ma[i1][i2]==-1)
+        {
+            puts("No way");
+        }
+        else
+            puts("OK");
+    }
+}
