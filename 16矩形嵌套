@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct record
+{
+    int x;
+    int y;
+}s[1100];
+bool cmp(record c,record d)
+{
+    if(c.x!=d.x)
+    return c.x<d.x;
+    else                       //排序x从小到大   x相等时y从小到大排
+    return c.y<d.y;
+}
+int main()
+{
+    int n,m,j,i,l,sum,t,max,mid;
+    int dp[1100];
+    scanf("%d",&n);
+    while(n--)
+    {
+        sum=0;max=0;
+        scanf("%d",&m);    
+        for(i=0;i<m;i++)
+        {
+            t=0;
+            scanf("%d %d",&s[i].x,&s[i].y);
+            if(s[i].x>s[i].y)
+            {
+                t=s[i].x;
+                s[i].x=s[i].y;     //将矩形较长的边放后边
+                s[i].y=t;
+            }
+        }
+        sort(s,s+m,cmp);
+        for(i=0;i<=m;i++)
+            dp[i]=1;                     //此数组用来记录前i项的最多矩形 
+        for(i=1;i<=m;i++)
+        {
+            for(j=i-1;j>=0;j--)
+            {          
+                if((s[i].x>s[j].x)&&(s[i].y>s[j].y))
+                {
+                    if(dp[i]<dp[j]+1)
+                        dp[i]=dp[j]+1;                 
+                }
+            }
+        }
+            for(i=0;i<m;i++)
+            {
+                if(sum<dp[i])
+                    sum=dp[i];
+            }                  
+        printf("%d\n",sum);        
+    }
+    return 0;
+}
