@@ -1,0 +1,17 @@
+#include<stdio.h>
+int main()
+{
+    int N,M,i,a[41];
+    scanf("%d",&N);
+    a[1]=0;
+    a[2]=1;
+    a[3]=2;
+    for(i=4;i<=40;i++) //将前40个数储存起来
+        a[i]=a[i-1]+a[i-2];
+    while(N--)
+    {
+        scanf("%d",&M);
+        printf("%d\n",a[M]);
+    }
+    return 1;
+}
