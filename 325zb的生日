@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+int a[21],total,n,m;
+void search(int s,int i)//s代表其中一对西瓜的重量，i代表当前要处理的西瓜
+{
+    if(i==n) return;
+    if(fabs(2*s-total) < m)//fabs(2*s-total)d代表当前两堆西瓜的差值
+        m = fabs(2*s-total);
+    search(s+a[i],i+1);//把西瓜分给这一组
+    search(s,i+1);//不把西瓜分给这一组
+    return;
+}
+int main()
+{
+    int i,j;
+    while(~scanf("%d",&n))
+    {
+        total = 0,m = 999999;
+        for(i = 0;i<n;i++)
+        {
+            scanf("%d",&a[i]);
+            total += a[i];
+        }
+        search(0,0);
+        printf("%d\n",m);
+    }
+    return 0;
+}
+//#include<stdio.h>
+#include<string.h>
+#include<math.h>
+int min,a[30],book[31],n;
+int dfs(int sum1,int sum2,int m)
+{
+    if(m==n)
+    {
+        int s=fabs(sum1-sum2);
+        if(s<min)
+            min=s;
+        return 0;
+    }
+    dfs(sum1+a[m],sum2,m+1);
+    dfs(sum1,sum2+a[m],m+1);
+    return 0;
+}
+
+int main()
+{
+    while(~scanf("%d",&n))
+    {
+        for(int i=0;i<n;i++)
+         scanf("%d",&a[i]);
+         min=99999;
+         dfs(0,0,0);
+         printf("%d\n",min);
+    }
+    return 0;
+}
+
+//
