@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<vector>
+#include<string.h>
+using namespace std;
+vector<int>S[100001];   //定义100001个容器
+int a[100001];            //a是用来记录父节点的。
+void dfs(int s)
+{
+    int i,j,k,l;
+    for(i=0; i<S[s].size(); i++)
+    {
+        if(a[S[s][i]])
+            continue;
+        a[S[s][i]] = s;            //当子节点为0时，用数组a记录其父节点。
+        dfs(S[s][i]);                //从这个子节点开始继续深搜。
+
+    }
+}
+int main()
+{
+    int n,m,s;
+    scanf("%d",&n);
+    while(n--)
+    {
+        memset(a,0,sizeof(a));
+        memset(S,0,sizeof(S));
+        scanf("%d%d",&m,&s);
+        int i,j,k,l;
+        a[s]=-1;
+        for(i=0; i<m-1; i++)
+        {
+            int x,y;
+            scanf("%d%d",&x,&y);
+            S[x].push_back(y);
+            S[y].push_back(x);
+        }
+        dfs(s);
+        for(i=1; i<=m; i++)
+            printf("%d ",a[i]);
+    }
+    return 0;
+}
