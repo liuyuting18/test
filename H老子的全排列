@@ -1,0 +1,34 @@
+#include<stdio.h>
+int len = 8;
+char a[8];
+int b[8];
+void dfs(int sh)
+{
+    if(sh==len)
+    {
+        for(int i = 0; i < len; i ++)
+        {
+            if(i != 0)  printf(" ");
+            printf("%c",a[i]);
+        }
+        printf("\n");
+    }
+    else
+    {
+        for(int i = 0; i < len; i ++)
+        {
+            if(!b[i])
+            {
+                a[sh] = '1' + i;
+                b[i] = 1;
+                dfs(sh + 1);
+                b[i] = 0;
+            }
+        }
+    }
+}
+int main (void)
+{
+    dfs(0);
+    return 0;
+}
