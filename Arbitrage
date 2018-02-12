@@ -1,0 +1,53 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int N=31;
+double chara[N][N];
+int n,i,m;
+map<string,int>mp;
+bool floyd()
+{
+    for(i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            for(int k=0;k<n;k++)
+            {
+                if(chara[j][i]*chara[i][k]>chara[j][k])
+                   chara[j][k]=chara[j][i]*chara[i][k];
+            }
+        }
+    }
+    for(i=0;i<n;i++)
+    {
+        if(chara[i][i]>1)
+            return true;
+    }
+    return false;
+}
+int main()
+{
+    int num=1;
+    while(~scanf("%d",&n)&&n!=0)
+    {
+        double w;
+        string str1,str2;
+        memset(chara,0,sizeof(chara));
+        for(i=0;i<n;i++)
+        {
+            cin>>str1;
+            mp[str1]=i;
+            chara[i][i]=1;
+        }
+        cin>>m;
+        for(i=0;i<m;i++)
+        {
+            cin>>str1>>w>>str2;
+            chara[mp[str1]][mp[str2]]=w;
+        }
+        if(floyd()==true)
+            printf("Case %d: Yes\n",num++);
+        else
+            printf("Case %d: No\n",num++);
+    }
+    return 0;
+}
