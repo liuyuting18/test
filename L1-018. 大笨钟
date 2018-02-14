@@ -1,0 +1,36 @@
+#include<stdio.h>  
+#include<iostream>  
+using namespace std;  
+int main()  
+{  
+  int m,h;  
+  scanf("%d:%d",&h,&m);  
+  int i;  
+  if(h>12)  
+  {  
+    if(m==0)  
+    {  
+      h=h-12;  
+    }  
+    else  
+    {  
+      h=h-11;  
+    }  
+    for(i=0;i<h;i++)  
+    {  
+      printf("Dang");  
+    }  
+    printf("\n");  
+  }  
+  else  
+    if(h==12)  
+    {  
+      if(m==0)  
+        printf("Only %02d:%02d.  Too early to Dang.\n",h,m);  
+      else  
+        printf("Dang\n");   
+    }  
+    else  
+      printf("Only %02d:%02d.  Too early to Dang.\n",h,m);   
+  return 0;    
+}  
