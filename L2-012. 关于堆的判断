@@ -1,0 +1,101 @@
+#include<iostream>  
+#include<cstdio>  
+#include<cstring>  
+#include<cmath>  
+#include<map>  
+  
+using namespace std;  
+  
+int n, a[1005];  
+  
+//建树的 “模板”  
+void up( int son )  
+{  
+    int t = a[son];  
+    int tson = son;  
+    while( (tson > 1)&&( a[tson/2] > t))  
+    {  
+        a[tson] = a[tson/2];  
+        tson = tson/2;  
+    }  
+    a[tson] = t;  
+}  
+  
+void charu( int  t)  
+{  
+    a[ ++n ] = t;  
+    up( n );  
+}  
+  
+  
+int main ()  
+{  
+    int k, m, x, y;;  
+    map <int, int> index; //记录下标  
+    string s;  
+    cin >> k >> m;  
+    n=0;  
+    //建树  
+    for(int i=0; i<k; i++)  
+    {  
+        cin >> x;  
+        charu(x);  
+    }  
+    //给map赋值  
+    for(int i=1; i<=n; i++)  
+    {  
+        index[a[i]] = i;  
+    }  
+    for(int i=0; i<m; i++)  
+    {  
+        cin >> x;  
+        cin >> s;  
+        int index_x = index[x];   
+        int index_y;  
+        if(s[0] == 'a')  
+        {  
+            cin >> y;  
+            getline(cin, s);  //这个函数可以输入一个带空格的字符串  
+            index_y = index[y];  
+            if(index_x/2 == index_y/2)  
+                puts("T");  
+            else  
+                puts("F");  
+        }  
+        else  
+        {  
+            cin >> s;  
+            cin >> s;  
+            if(s[0] == 'r')  
+            {  
+                if(index_x == 1)  
+                    puts("T");  
+                else  
+                    puts("F");  
+            }  
+            else if(s[0] == 'p')  
+            {  
+                cin >> s;  
+                cin >> y;  
+                index_y = index[y];  
+                if(index_y/2 == index_x)  
+                    puts("T");  
+                else  
+                    puts("F");  
+  
+            }  
+            else  
+            {  
+                cin >> s;  
+                cin >> y;  
+                index_y = index[y];  
+                if(index_x/2 == index_y)  
+                    puts("T");  
+                else  
+                    puts("F");  
+            }  
+        }  
+    }  
+  
+    return 0;  
+}  
