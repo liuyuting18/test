@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+int main()
+{
+    int t=0,lena,lenb;
+    char a[1100],b[1100];
+        while(scanf("%s%s",a,b)&&(t<=10)&&(strcmp("0",a)!=0)||(strcmp("0",b)!=0))
+        {
+            lena=strlen(a);
+            lenb=strlen(b);
+            if(a[0]=='-'&&b[0]!='-')
+              printf("a<b\n");
+            else if(a[0]!='-'&&b[0]=='-')
+              printf("a>b\n");
+            else if(a[0]=='-'&&b[0]=='-'&&lena!=lenb)//此处一定要将字符串a，b的长度不相等写上
+            {
+                if(lena>lenb)
+                   printf("a<b\n");
+                if(lena<lenb)
+                   printf("a>b\n");
+            }
+            else if(a[0]!='-'&&b[0]!='-'&&lena!=lenb)//同上
+            {
+                if(lena<lenb)
+                   printf("a<b\n");
+                if(lena>lenb)
+                   printf("a>b\n");
+            }
+            else if(a[0]=='-'&&b[0]=='-'&&lena==lenb)
+            {
+                if(strcmp(a,b)>0)
+                   printf("a<b\n");
+                else if(strcmp(a,b)<0)
+                   printf("a>b\n");
+                else
+                   printf("a==b\n");
+            }
+            else if(a[0]!='-'&&b[0]!='-'&&lena==lenb)
+            {
+                if(strcmp(a,b)>0)
+                   printf("a>b\n");
+                else if(strcmp(a,b)<0)
+                   printf("a<b\n");
+                else
+                   printf("a==b\n");
+            }
+            t++;
+        }
+    return 0;
+}
