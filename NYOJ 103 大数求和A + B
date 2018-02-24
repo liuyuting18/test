@@ -1,0 +1,45 @@
+ #include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    char a[1050],b[1050];
+    int c[1050],d[1050],e[1050],n,p;
+    cin>>n;
+    for(p=1;p<=n;p++)
+    {
+    cin>>a>>b;
+    int m=0,l=0;
+    memset(c,0,sizeof(c));
+    memset(d,0,sizeof(d));
+    memset(e,0,sizeof(e));//全部置0
+    for(int i=0;i<strlen(a);i++)//若a=123 即strlen(a)=3
+    {
+        d[i]=a[strlen(a)-1-i]-'0';//d[0]=a[2]=3,d[1]=a[1]=2,d[2]=a[0]=1,-0是因为字符转化数字
+    }
+    for(int i=0;i<strlen(b);i++)//b=456
+    {
+        e[i]=b[strlen(b)-1-i]-'0';
+    }
+        while(l<=strlen(a)||l<=strlen(b))
+        {
+            c[l]=d[l]+e[l]+m;//c[0]=d[0]+e[0]+0=3+6=9;即个位数相加
+            m=c[l]/10;//m统计进位，如果相加大于10，则m=1
+            c[l]=c[l]%10;//c[0]=9
+            l++;//从0开始统计最后的和的位数即最大为a或b的长度
+        }
+        if(m!=0) c[l]=m;//如果最后的进位不为0，则对应的位数等于进位
+        else
+        {
+            l--;
+            if(c[l]==0) l=l-1;//如果为0，则不进位
+        }
+        cout<<"Case "<<p<<":"<<endl;
+        cout<<a<<" + "<<b<<" = ";
+        for(int j=l;j>=0;j--)
+        {
+            cout<<c[j];//因为计算时是从各位开始的，所以输出要倒着来
+        }
+        cout<<endl;
+    }
+    return 0;
+ }
