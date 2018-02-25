@@ -1,0 +1,33 @@
+#include <stdio.h>  
+#include <string.h>  
+int main() {  
+    int n, i, j, c, b, L;  
+    char s[202][62], m[202];  
+    memset(s,0,sizeof(s));  
+    s[1][0] = 1;  
+    s[2][0] = 2;  
+    s[1][60] = 1;  
+    s[2][60] = 1;  
+    for(i = 3; i < 201; i++) {  
+        c = 0;  
+        L = s[i-1][60];  
+        for(j = 0; ; j++) {  
+            if(j >= L && c == 0) break;  
+            b = s[i-2][j] + s[i-1][j] + c;  
+            s[i][j] = b%10;  
+            c = b/10;  
+        }s[i][60] = j;  
+    }  
+    //freopen("input.txt","r",stdin);  
+    scanf("%d", &n);  
+    while(n--) {  
+        scanf("%s", m);  
+        int a = strlen(m);  
+        L = s[a][60]-1;  
+        for(i = L; i > -1; i--) {  
+            printf("%c", s[a][i]+48);  
+        }printf("\n");  
+    }//fclose(stdin);  
+    return 0;  
+}  
+
